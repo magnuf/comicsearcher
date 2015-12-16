@@ -19,9 +19,11 @@
   "homepage": "https://github.com/magnuf/comicsearcher#readme",
   "dependencies": {
     "aws-sdk": "^2.2.23",
+    "bluebird": "^3.0.6",
     "eventemitter3": "^1.1.1",
     "google-auth-library": "^0.9.7",
     "googleapis": "^2.1.7",
+    "node-uuid": "^1.4.7",
     "node-zip": "^1.1.1",
     "request": "^2.67.0"
   }
