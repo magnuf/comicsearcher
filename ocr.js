@@ -11,7 +11,7 @@ var EventEmitter = new EE();
 
 
 var SCOPES = ['https://www.googleapis.com/auth/drive'];
-var TOKEN_DIR = "./"
+var TOKEN_DIR = "./";
 var TOKEN_PATH = TOKEN_DIR + 'drive_token.json';
 var authClient;
 // Load client secrets from a local file.
