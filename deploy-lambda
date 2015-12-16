@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+zip -r lambda.zip \
+       node_modules \
+       index.js \
+       config.json \
+       ocr.js \
+       client_secret.json \
+       drive_token.json
+
+aws --profile bekkops \
+    lambda update-function-code \
+    --function-name comicsearcher-ocr \
+    --zip-file fileb://lambda.zip
+
+rm lambda.zip
