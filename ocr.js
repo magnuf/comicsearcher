@@ -15,9 +15,9 @@ var TOKEN_DIR = "./";
 var TOKEN_PATH = TOKEN_DIR + 'drive_token.json';
 var authClient;
 // Load client secrets from a local file.
-fs.readFile('client_secret.json', function processClientSecrets(err, content) {
+fs.readFile('client_secret.json', function processClientSecrets (err, content) {
   if (err) {
-    console.log('Error loading client secret file: ' + err);
+    console.log('Error loading client secret file:', err);
     return;
   }
   // Authorize a client with the loaded credentials, then call the
@@ -32,7 +32,7 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize(credentials) {
+function authorize (credentials) {
   var clientSecret = credentials.installed.client_secret;
   var clientId = credentials.installed.client_id;
   var redirectUrl = credentials.installed.redirect_uris[0];
@@ -43,12 +43,11 @@ function authorize(credentials) {
   fs.readFile(TOKEN_PATH, function(err, token) {
     oauth2Client.credentials = JSON.parse(token);
     authClient = oauth2Client;
-    EventEmitter.emit("authed")
+    EventEmitter.emit("authed");
   });
 }
 
-
-function uploadFile(path, callback) {
+function uploadFile (path, callback) {
   var drive = google.drive({ version: 'v2', auth: authClient });
   drive.files.insert({
     resource: {
@@ -60,24 +59,24 @@ function uploadFile(path, callback) {
       mimeType: "image/png", //Just set a mimeType, so that OCR works
       body: fs.createReadStream(path) // read streams are awesome!
     }
-  }, function(err, data) {
-      getText(data, callback)
+  }, function (err, data) {
+    getText(data, callback);
   });
 }
 
-function getText(fileData, callback) {
+function getText (fileData, callback) {
   var url = fileData.exportLinks['text/plain'];
   request.get(url, {
     'auth' : {
       'bearer': authClient.credentials.access_token
     }
   }, function(error, response, body) {
-    deleteFile(fileData.id)
+    deleteFile(fileData.id);
     callback(error, body);
   });
 }
 
-function deleteFile(fileId) {
+function deleteFile (fileId) {
   var drive = google.drive({ version: 'v2', auth: authClient });
   drive.files.delete({
     fileId: fileId
@@ -87,4 +86,4 @@ function deleteFile(fileId) {
 module.exports = {
   events: EventEmitter,
   runOcr: uploadFile
-}
+};
