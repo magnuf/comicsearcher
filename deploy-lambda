@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-zip -r lambda.zip \
+./node_modules/.bin/nodezip -c lambda.zip \
        node_modules \
        index.js \
        config.json \
