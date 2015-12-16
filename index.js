@@ -2,6 +2,7 @@ var AWS = require('aws-sdk');
 var path = require('path');
 
 var config = require('./config.json');
+var ocr = require('./ocr');
 
 var data = {
   "image": "http://image.tld/asdasweadas.jpg",
@@ -25,6 +26,7 @@ var esDomain = {
 };
 var endpoint =  new AWS.Endpoint(esDomain.endpoint);
 var creds = new AWS.EnvironmentCredentials('AWS');
+var s3 = new AWS.S3();
 
 exports.handler = function (event, context) {
   console.log('node version', process.version); // v0.10.36
@@ -37,7 +39,16 @@ exports.handler = function (event, context) {
     console.log('bucket', bucket,
                 'object key', key);
 
-    postToEs(data, context);
+    var imageStream = s3.getObject({ Bucket: bucket, Key: key }).createReadStream();
+
+    ocr.events.on("authed", function () {
+      ocr.runOcr(imageStream, function (err, text) {
+        console.log('err', err);
+        console.log('text', text);
+      });
+    });
+
+    //postToEs(data, context);
   });
 };
 

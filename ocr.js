@@ -47,7 +47,7 @@ function authorize (credentials) {
   });
 }
 
-function uploadFile (path, callback) {
+function uploadFile (stream, callback) {
   var drive = google.drive({ version: 'v2', auth: authClient });
   drive.files.insert({
     resource: {
@@ -57,7 +57,7 @@ function uploadFile (path, callback) {
     ocrLanguage: "no",
     media: {
       mimeType: "image/png", //Just set a mimeType, so that OCR works
-      body: fs.createReadStream(path) // read streams are awesome!
+      body: stream
     }
   }, function (err, data) {
     getText(data, callback);
