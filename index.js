@@ -21,8 +21,7 @@ var data = {
 var esDomain = {
   endpoint: config.esUrl,
   region: 'eu-west-1',
-  index: 'comics',
-  doctype: 'test'
+  index: 'comics'
 };
 var endpoint =  new AWS.Endpoint(esDomain.endpoint);
 var creds = new AWS.EnvironmentCredentials('AWS');
@@ -41,22 +40,32 @@ exports.handler = function (event, context) {
 
     var imageStream = s3.getObject({ Bucket: bucket, Key: key }).createReadStream();
 
+    if(key.indexOf("/") === -1) {
+    	context.fail("All comics need to go in a folder. The folder is used as the doctype in ES");
+    }
+
+    var comic = key.split("/")[0];
+
     ocr.events.on("authed", function () {
       ocr.runOcr(imageStream, function (err, text) {
-        console.log('err', err);
-        console.log('text', text);
+        var data = {
+		  "image": "https://s3-eu-west-1.amazonaws.com/"+bucket + "/" + key,
+		  "ocrtext": text,
+		  "correctedtext": text
+		};
+        postToEs(comic, data, context);
+
       });
     });
 
-    //postToEs(data, context);
   });
 };
 
-function postToEs (doc, context) {
+function postToEs (doctype, doc, context) {
   var req = new AWS.HttpRequest(endpoint);
 
   req.method = 'POST';
-  req.path = path.join('/', esDomain.index, esDomain.doctype);
+  req.path = path.join('/', esDomain.index, doctype);
   req.region = esDomain.region;
   req.body = JSON.stringify(doc);
   req.headers['presigned-expires'] = false;
