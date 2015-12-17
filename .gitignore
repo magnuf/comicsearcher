@@ -28,3 +28,4 @@ node_modules
 /client_secret.json
 /drive_token.json
 /config.json
+/www/dist
