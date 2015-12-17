@@ -3,6 +3,7 @@
 ./node_modules/.bin/nodezip -c lambda.zip \
        node_modules \
        lambda-ocr.js \
+       lambda-web-api.js \
        config.json \
        signedRequest.js \
        ocr.js \
