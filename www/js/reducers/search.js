@@ -19,22 +19,22 @@ function search (state = initialState, action) {
       query: action.query
     });
 
-  case "SEARCH_SUCCESS": {
+  case "SEARCH_SUCCESS":
     return state.merge({
       error: null,
       loading: false,
       results: action.results
     });
-  }
 
-  case "SEARCH_FAILED": {
+  case "SEARCH_FAILED":
     return state.merge({
       loading: false,
       error: action.error && action.error.message || "Search failed..",
       results: []
     });
-  }
+
+  default:
+    return state;
   }
 
-  return state;
 }
