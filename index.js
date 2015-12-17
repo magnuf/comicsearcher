@@ -101,7 +101,7 @@ function postToEs (params) {
       url: params.url,
       filename: params.filename,
       ocrtext: results.ocrText,
-      correctedtext: clearOcrText(results.ocrText)
+      correctedtext: cleanOcrText(results.ocrText)
     };
 
     var url = path.join('/', "comics", params.doctype);
@@ -137,5 +137,6 @@ function deleteS3Object (params) {
 function cleanOcrText (dirtyText) {
   return dirtyText
     .replace(/\r\n/g, " ")
-    .replace(/[^a-zA-ZæøåÆØÅ0-9\s]/g, " ");
+    .replace(/[^a-zA-ZæøåÆØÅ0-9\s]/g, " ")
+    .replace(/\s+/g, " ");
 }
