@@ -36,7 +36,8 @@ exports.handler = function (event, context) {
       key: "comics" + "/" + imageUuid
     };
 
-    var imageStream = s3.getObject({ Bucket: bucket, Key: key }).createReadStream();
+    var eventObject = { Bucket: bucket, Key: key };
+    var imageStream = s3.getObject(eventObject).createReadStream();
 
     runOcr(imageStream)
       .then(copyS3Object({
@@ -49,10 +50,7 @@ exports.handler = function (event, context) {
         url: "https://s3-eu-west-1.amazonaws.com/" + destination.bucket + "/" + destination.key,
         doctype: comic
       }))
-      .then(deleteS3Object({
-        Bucket: bucket,
-        Key: key
-      }))
+      .then(deleteS3Object(eventObject))
       .then(function (results) {
         console.log(JSON.stringify(results));
         context.succeed();
@@ -71,7 +69,8 @@ function runOcr (imageS3Stream) {
         if (err) {
           return reject(err);
         }
-        return resolve({ ocrText: text });
+        var results = { ocrText: text };
+        return resolve(results);
       });
     });
   });
@@ -84,16 +83,16 @@ function copyS3Object (params) {
 
     return new Promise(function (resolve, reject) {
 
-        s3.copyObject(params, function (err, data) {
+      s3.copyObject(params, function (err, data) {
         if (err) {
-            var errMsg = "Could not move file " + paramsStr;
-            console.error(err, errMsg);
-            return reject(errMsg, err);
+          var errMsg = "Could not move file " + paramsStr;
+          console.error(err, errMsg);
+          return reject(errMsg, err);
         }
 
         console.log("Moved file", paramsStr);
-          return resolve(results);
-        });
+        return resolve(results);
+      });
     });
   };
 }
