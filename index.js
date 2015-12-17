@@ -109,7 +109,7 @@ function postToEs (params) {
       url: params.url,
       filename: params.filename,
       ocrtext: results.ocrText,
-      correctedtext: results.ocrText
+      correctedtext: clearOcrText(results.ocrText)
     };
 
     return new Promise(function (resolve, reject) {
@@ -159,4 +159,10 @@ function deleteS3Object (params) {
       });
     });
   };
+}
+
+function cleanOcrText (dirtyText) {
+  return dirtyText
+    .replace(/\r\n/g, " ")
+    .replace(/[^a-zA-ZæøåÆØÅ0-9\s]/g, " ");
 }
