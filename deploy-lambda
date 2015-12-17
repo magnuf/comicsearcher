@@ -2,7 +2,7 @@
 
 ./node_modules/.bin/nodezip -c lambda.zip \
        node_modules \
-       index.js \
+       lambda-ocr.js \
        config.json \
        signedRequest.js \
        ocr.js \
