@@ -5,24 +5,11 @@ exports.handler = function (event, context) {
 
     var doc = {
        "query": { 
-           "bool": {
-               "should": [
-                  {
-                       "fuzzy": {
-                           "ocrtext" : {
-                               "value": query
-                           }
-                       }
-                   },
-                   {
-                       "fuzzy": {
-                           "correctedtext" : {
-                               "value": query
-                           }
-                       }
-                   }
-               ]
-           }
+            "multi_match": {
+                "fields": ["ocrtext", "correctedtext"],
+                "query": query,
+                "fuzziness": "AUTO"
+            }
        }
     }
 
