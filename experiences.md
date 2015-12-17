@@ -83,3 +83,46 @@
 }
 ```
 
+
+
+
+#ES ngram config#
+
+PUT /comics
+{
+    "settings": {
+        "analysis": {
+            "filter": {
+                "trigrams_filter": {
+                    "type":     "ngram",
+                    "min_gram": 3,
+                    "max_gram": 3
+                }
+            },
+            "analyzer": {
+                "trigrams": {
+                    "type":      "custom",
+                    "tokenizer": "standard",
+                    "filter":   [
+                        "lowercase",
+                        "trigrams_filter"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings": {
+        "lunch": {
+            "properties": {
+                "ocrtext": {
+                    "type":     "string",
+                    "analyzer": "trigrams"
+                },
+                "correctedtext": {
+                    "type":     "string",
+                    "analyzer": "trigrams"
+                }
+            }
+        }
+    }
+}

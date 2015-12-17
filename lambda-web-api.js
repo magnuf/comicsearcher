@@ -8,7 +8,7 @@ exports.handler = function (event, context) {
             "multi_match": {
                 "fields": ["ocrtext", "correctedtext"],
                 "query": query,
-                "fuzziness": "AUTO"
+                "minimum_should_match": "50%"
             }
        }
     }
