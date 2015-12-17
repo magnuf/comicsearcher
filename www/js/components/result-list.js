@@ -1,4 +1,5 @@
 const React = require('react');
+const Comic = require('./comic');
 
 const ResultList = React.createClass({
 
@@ -9,8 +10,10 @@ const ResultList = React.createClass({
       return <div>Loading..</div>;
     }
 
+    var images = results.map(comic => <Comic url={comic.image} />);
+
     return <div>
-      {JSON.stringify(results)}
+      {images}
     </div>;
   }
 });
