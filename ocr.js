@@ -60,6 +60,9 @@ function uploadFile (stream, callback) {
       body: stream
     }
   }, function (err, data) {
+    if (err) {
+      return callback(err);
+    }
     getText(data, callback);
   });
 }
