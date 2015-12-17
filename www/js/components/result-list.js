@@ -10,10 +10,12 @@ const ResultList = React.createClass({
       return <div>Loading..</div>;
     }
 
-    var images = results.map(comic => <Comic url={comic.image} />);
+
+    var images = results.map((comic, i) =>
+      <Comic key={ i } url={ comic.image } />);
 
     return <div>
-      {images}
+      { images }
     </div>;
   }
 });
