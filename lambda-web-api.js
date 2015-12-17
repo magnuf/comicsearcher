@@ -27,7 +27,7 @@ exports.handler = function (event, context) {
     }
         
 
-    signedRequest.post("comics/_search", doc);
+    signedRequest.post("comics/_search", doc)
         .then(function (result) {
             context.succeed(result);
         })
