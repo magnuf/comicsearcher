@@ -3,17 +3,9 @@ var path = require('path');
 var uuid = require('node-uuid');
 var Promise = require('bluebird');
 
-var config = require('./config.json');
 var ocr = require('./ocr');
+var signedRequest = require('./signedRequest');
 
-var esDomain = {
-  endpoint: config.esUrl,
-  region: 'eu-west-1',
-  index: 'comics'
-};
-
-var endpoint =  new AWS.Endpoint(esDomain.endpoint);
-var creds = new AWS.EnvironmentCredentials('AWS');
 var s3 = new AWS.S3();
 
 exports.handler = function (event, context) {
@@ -112,32 +104,13 @@ function postToEs (params) {
       correctedtext: clearOcrText(results.ocrText)
     };
 
-    return new Promise(function (resolve, reject) {
+    var url = path.join('/', "comics", params.doctype);
 
-        var req = new AWS.HttpRequest(endpoint);
-
-        req.method = 'POST';
-        req.path = path.join('/', esDomain.index, params.doctype);
-        req.region = esDomain.region;
-        req.body = JSON.stringify(doc);
-        req.headers['presigned-expires'] = false;
-        req.headers['Host'] = endpoint.host;
-
-        var signer = new AWS.Signers.V4(req, 'es');
-        signer.addAuthorization(creds, new Date());
-
-        var send = new AWS.NodeHttpClient();
-        send.handleRequest(req, null, function (httpResp) {
-          var body = '';
-          httpResp.on('data', function (chunk) {
-            body += chunk;
-          });
-          httpResp.on('end', function () {
-            results.esResponse = body;
-            resolve(results);
-          });
-        }, reject);
-    });
+    return signedRequest.post(url, doc)
+      .then(function (body) {
+        results.esResponse = body;
+        return results;
+      });
   };
 }
 

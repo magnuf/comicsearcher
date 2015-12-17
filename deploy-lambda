@@ -4,6 +4,7 @@
        node_modules \
        index.js \
        config.json \
+       signedRequest.js \
        ocr.js \
        client_secret.json \
        drive_token.json
