@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 npm run build:prod
+cp favicon.ico dist/
 
 aws --profile bekkops s3 cp dist/index.html s3://bekkops-comicsearcher-www/
 aws --profile bekkops s3 cp dist/app.bundle.js s3://bekkops-comicsearcher-www/
+aws --profile bekkops s3 cp dist/favicon.ico s3://bekkops-comicsearcher-www/
