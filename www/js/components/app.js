@@ -1,9 +1,22 @@
+const { connect } = require('react-redux');
+
+const actions = require('../actions');
 
 const Search = require('./search');
+const ResultList = require('./result-list');
+
 
 const App = (props) =>
   <div className="app">
-    <Search />
+    <Search query={ props.query } search={ props.search }/>
+    <ResultList results={ props.results } loading={ props.loading }/>
   </div>;
 
-module.exports = App;
+const stateSelector = function (state) {
+  return {
+    query: state.search.get('query'),
+    results: state.search.get('results').toJS(),
+    loading: state.search.get('loading')
+  };
+};
+module.exports = connect(stateSelector, actions)(App);
