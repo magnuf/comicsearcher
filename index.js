@@ -28,7 +28,9 @@ exports.handler = function (event, context) {
       context.fail("All comics need to go in a folder. The folder is used as the doctype in ES");
     }
 
-    var comic = key.split("/")[0];
+    var splitKey = key.split("/");
+    var bucketFolder = splitKey[0];
+    var bucketFilename = splitKey[1];
 
     var imageUuid = uuid.v4();
     var destination = {
@@ -48,7 +50,8 @@ exports.handler = function (event, context) {
       .then(postToEs({
         uuid: imageUuid,
         url: "https://s3-eu-west-1.amazonaws.com/" + destination.bucket + "/" + destination.key,
-        doctype: comic
+        filename: bucketFilename,
+        doctype: bucketFolder
       }))
       .then(deleteS3Object(eventObject))
       .then(function (results) {
@@ -104,6 +107,7 @@ function postToEs (params) {
     var doc = {
       uuid: params.uuid,
       url: params.url,
+      filename: params.filename,
       ocrtext: results.ocrText,
       correctedtext: results.ocrText
     };
