@@ -1,8 +1,8 @@
 {
   "name": "comicsearcher",
+  "private": true,
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "deploy:lambda": "sh deploy-lambda"
   },
