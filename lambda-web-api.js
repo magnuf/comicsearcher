@@ -25,13 +25,19 @@ exports.handler = function (event, context) {
            }
        }
     }
-        
 
-    signedRequest.post("comics/_search", doc)
+    signedRequest.post("/comics/_search", doc)
         .then(function (result) {
-            context.succeed(result);
+            context.succeed(prepareResult(JSON.parse(result)));
         })
         .catch(function (error) {
-            context.fail();
+            console.error(error);
+            context.fail("Something went wrong.");
         });
+}
+
+function prepareResult (result) {
+    return result.hits.hits.map(function (hit) {
+        return { image: hit._source.url };
+    });
 }
