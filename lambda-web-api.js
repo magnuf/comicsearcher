@@ -2,6 +2,9 @@ var signedRequest = require("./signedRequest");
 
 exports.handler = function (event, context) {
     var query = decodeURIComponent(event.query.toLowerCase());
+    if (query.length < 3) {
+        context.fail("Query too short.");
+    }
 
     var doc = {
        "query": { 
