@@ -1,7 +1,7 @@
 var signedRequest = require("./signedRequest");
 
 exports.handler = function (event, context) {
-    var query = event.query.toLowerCase();
+    var query = decodeURIComponent(event.query.toLowerCase());
 
     var doc = {
        "query": { 
