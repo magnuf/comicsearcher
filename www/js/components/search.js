@@ -18,3 +18,17 @@ const Search = React.createClass({
 });
 
 module.exports = Search;
+
+function debounce (ms, fn) {
+  let timeout;
+  const self = this;
+  return function (...rest) {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+    timeout = setTimeout(function () {
+      fn.apply(self, rest);
+    }, ms);
+  };
+}

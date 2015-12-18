@@ -12,6 +12,11 @@ const initialState = fromJS({
 function search (state = initialState, action) {
   switch (action.type) {
 
+  case "SET_QUERY":
+    return state.merge({
+      query: action.query
+    });
+
   case "SEARCH_STARTED":
     return state.merge({
       error: null,
