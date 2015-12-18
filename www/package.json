@@ -10,6 +10,7 @@
   "author": "@torgeir",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.3.13",
     "immutable": "^3.7.6",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",

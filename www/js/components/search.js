@@ -1,10 +1,13 @@
 const React = require('react');
 
+var styles = require('../styles');
+
 const Search = React.createClass({
 
   render: function () {
     const { query } = this.props;
     return <input
+      style={ styles.input }
       value={ query }
       placeholder="Search.."
       onChange={ this.onSearchChange } />;

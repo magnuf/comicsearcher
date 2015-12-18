@@ -32,7 +32,7 @@ module.exports = {
         loader: 'babel',
         query: {
           cacheDirectory: true,
-          plugins: [ 'transform-react-require' ],
+          plugins: [ 'transform-react-require', 'transform-object-rest-spread' ],
           presets: [ 'es2015', 'react' ]
         }
       }

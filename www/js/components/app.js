@@ -5,9 +5,10 @@ const actions = require('../actions');
 const Search = require('./search');
 const ResultList = require('./result-list');
 
+var styles = require('../styles');
 
 const App = (props) =>
-  <div className="app">
+  <div style={ styles.app }>
     <Search query={ props.query } search={ props.search }/>
     <ResultList results={ props.results } loading={ props.loading }/>
   </div>;
