@@ -101,7 +101,8 @@ function postToEs (params) {
       url: params.url,
       filename: params.filename,
       ocrtext: results.ocrText,
-      correctedtext: cleanOcrText(results.ocrText)
+      correctedtext: cleanOcrText(results.ocrText),
+      ocrtext_raw: results.ocrText
     };
 
     var url = path.join('/', "comics", params.doctype);
