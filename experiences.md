@@ -37,6 +37,22 @@
 - Alle requests må signeres når man bruker IAM roller for tilgangsstyring!
 - Automatisk signering med aws sdk når man bare skal gjøre http direkte
 - Herk å måtte signe alle requests?
+- Gammel versjon
+- Ingen scripting i queries
+- Veldig basic, virker litt som en "vi har det for å ha det"
+
+#API Gateway
+- Virker kraftig
+- Mye å sette seg inn i
+- Mapping templates i alle ledd og queryparametere og masse rart
+- Virker som om man kan ha veldig fingranulert kontroll, bare man setter seg inn i det
+- AWS-dokumentasjon, aka veldig verbos og mye brødtekst med lite kjøtt på beina og lite kode
+- Lett å bare få opp og kjøre når man skjønte at man trengte veldig lite
+- Ingen stress med tilgangsstyring når man skal kjøre en lambda
+- Må 'deploye' ny versjon når man skal teste, fort gjort å glemme
+- Ny versjon ute kjapt
+- Støtter CORS fra ett domene, eller alle (*)
+
 
 # Mapping template to get params into lambda:
 
@@ -86,7 +102,7 @@
 
 
 
-#ES ngram config#
+#ES ngram config
 
 PUT /comics
 {
