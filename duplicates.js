@@ -9,13 +9,24 @@ var doc = {
    },
   "size": 5000
 };
+
+var doc = {
+       "query": { 
+            "multi_match": {
+                "fields": ["ocrtext", "correctedtext"],
+                "query": "hms",
+                "minimum_should_match": "80%"
+            }
+       }
+    }
+
 function findduplicates (results) {
   counter = {}
   results = JSON.parse(results);
   results.hits.hits.forEach(function(obj){
     key = obj._source.ocrtext;
     if(counter[key]){
-      counter[key].push(obj._source.uuid);
+      counter[key].push({uuid: obj._source.uuid, name: obj._source.filename});
     } else {
       counter[key] = [obj._source.uuid];
     }
@@ -24,8 +35,9 @@ function findduplicates (results) {
   var vals = Object.keys(counter).map(function (key) {
     return counter[key];
   });
-
-  console.log(vals.filter(function(val){ return val.length > 1}));
+  var filtered =  vals.filter(function(val){ return ( val.length > 1 && val.length < 5)}); //Only got comics from 4 sources
+  console.log("Duplicates found: " + filtered.length)
+  console.log(filtered); //Only got comics from 4 sources
 }
 
 
@@ -45,6 +57,7 @@ send.handleRequest(req, null, function (httpResp) {
     body += chunk;
   });
   httpResp.on('end', function () {
-    findduplicates(body);
+    console.log(body);
+    // findduplicates(body);
   });
 });
