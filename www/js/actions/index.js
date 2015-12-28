@@ -1,7 +1,6 @@
 const api = require('../api');
 
 const debouncedSearch = debounce(150, function (query, dispatch) {
-  dispatch({ type: "SEARCH_STARTED", query });
   api.search(query)
     .then(results => dispatch({ type: "SEARCH_SUCCESS", results }))
     .catch(error => dispatch({ type: "SEARCH_ERROR", error }));
@@ -9,9 +8,25 @@ const debouncedSearch = debounce(150, function (query, dispatch) {
 
 exports.search = function (query) {
   return function (dispatch) {
-    dispatch({ type: "SET_QUERY", query });
+    if (!query) {
+      dispatch({ type: "SET_QUERY", query: '' });
+      return;
+    }
+    dispatch({ type: "SEARCH_STARTED", query });
     debouncedSearch(query, dispatch);
   };
+};
+
+exports.cancel = function () {
+  return { type: "SELECT_CANCEL" };
+};
+
+exports.prev = function () {
+  return { type: "SELECT_PREV" };
+};
+
+exports.next = function () {
+  return { type: "SELECT_NEXT" };
 };
 
 function debounce (ms, fn) {

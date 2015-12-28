@@ -23,3 +23,16 @@ exports.input = {
   outline: 'none',
   textAlign: 'center'
 };
+
+exports.message = {
+  textAlign: 'center'
+};
+
+exports.resultItem = {
+  listStyle: 'none'
+};
+
+exports.resultList = {
+  padding: 0,
+  margin: 0
+};

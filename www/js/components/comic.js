@@ -1,8 +1,23 @@
 const React = require('react');
+const ReactDom = require('react-dom');
 
-var styles = require('../styles');
+const styles = require('../styles');
 
-const Comic = (props) =>
-  <img style={ styles.comic } src={ props.url } />
+const Comic = React.createClass({
+
+  componentDidUpdate: function () {
+    const { selected } = this.props;
+    if (selected) {
+      ReactDom.findDOMNode(this).focus();
+    }
+  },
+
+  render: function () {
+    const { url } = this.props;
+    return <a href={ url } target="_blank">
+      <img src={ url } style={ styles.comic } />
+    </a>;
+  }
+});
 
 module.exports = Comic;

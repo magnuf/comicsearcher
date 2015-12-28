@@ -1,21 +1,26 @@
 const React = require('react');
+
+const navigateOnKey = require('../navigate-on-key');
 const Comic = require('./comic');
+
+const styles = require('../styles');
 
 const ResultList = React.createClass({
 
   render: function () {
-    const { results, loading } = this.props;
+    const { results, selected, actions } = this.props;
 
-    if (loading) {
-      return <div>Loading..</div>;
-    }
+    const images = results.map((comic, i) =>
+      <li key={ i }
+          style={ styles.resultItem }>
+        <Comic url={ comic.image }
+               selected={ i == selected } />
+      </li>);
 
-    var images = results.map((comic, i) =>
-      <Comic key={ i } url={ comic.image } />);
-
-    return <div>
+    return <ul style={ styles.resultList }
+               onKeyDown={ navigateOnKey(actions) }>
       { images }
-    </div>;
+    </ul>;
   }
 });
 

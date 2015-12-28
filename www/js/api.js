@@ -9,19 +9,9 @@ const url = {
 };
 
 exports.search = function (q) {
-
-  return new Promise(function (resolve, reject) {
-
-    ajax.get(url.search(q), function (err, res) {
-      if (err) {
-        return reject(err);
-      }
-
-      return resolve(res.body);
-    });
-  });
+  return ajax.get(url.search(q));
 };
 
 function apiUrl (path) {
-  return BASE_URL + '/' + path;
+  return `${BASE_URL}/${path}`;
 }

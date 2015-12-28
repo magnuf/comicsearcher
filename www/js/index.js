@@ -7,6 +7,14 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 const store = createStoreWithMiddleware(initReducers());
 
+if (module.hot) {
+  module.hot.accept("./reducers/search", () => store.replaceReducer(initReducers()));
+}
+
+if (__DEV__) {
+  window.store = store;
+}
+
 const App = require('./components/app');
 ReactDom.render(
   <Provider store={ store }>
