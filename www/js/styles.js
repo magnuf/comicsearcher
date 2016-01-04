@@ -34,5 +34,6 @@ exports.resultItem = {
 
 exports.resultList = {
   padding: 0,
-  margin: 0
+  margin: '0 auto',
+  maxWidth: '50rem'
 };
