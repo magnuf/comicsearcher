@@ -23,10 +23,10 @@
     "eventemitter3": "^1.1.1",
     "google-auth-library": "^0.9.7",
     "googleapis": "^2.1.7",
-    "node-resemble-js": "0.0.4",
     "node-uuid": "^1.4.7",
     "node-zip": "^1.1.1",
     "request": "^2.67.0",
+    "resemble": "^1.2.1",
     "seq": "^0.3.5"
   }
 }
