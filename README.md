@@ -5,3 +5,5 @@
 - [ ] Set up to receive other comics
 - [ ] New domain
 
+
+Link: https://comicsearcher-www.s3-eu-west-1.amazonaws.com/index.html
